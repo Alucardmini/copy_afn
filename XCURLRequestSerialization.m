@@ -214,6 +214,67 @@ static void *XCHTTPRequestSerializerObserverContext = &XCHTTPRequestSerializerOb
     }
 }
 
+#pragma mark -
+
+- (void)setAllowsCellularAccess:(BOOL)allowsCellularAccess{
+    [self willChangeValueForKey:NSStringFromSelector(@selector(allowsCellularAccess))];
+    _allowsCellularAccess = allowsCellularAccess;
+    [self didChangeValueForKey:NSStringFromSelector(@selector(allowsCellularAccess))];
+}
+
+- (void)setCachePolicy:(NSURLRequestCachePolicy)cachePolicy{
+    [self willChangeValueForKey:NSStringFromSelector(@selector(cachePolicy))];
+    _cachePolicy = cachePolicy;
+    [self didChangeValueForKey:NSStringFromSelector(@selector(cachePolicy))];
+}
+- (void)setHTTPShouldHandleCookies:(BOOL)HTTPShouldHandleCookies {
+    [self willChangeValueForKey:NSStringFromSelector(@selector(HTTPShouldHandleCookies))];
+    _HTTPShouldHandleCookies = HTTPShouldHandleCookies;
+    [self didChangeValueForKey:NSStringFromSelector(@selector(HTTPShouldHandleCookies))];
+}
+
+- (void)setHTTPShouldUsePipelining:(BOOL)HTTPShouldUsePipelining {
+    [self willChangeValueForKey:NSStringFromSelector(@selector(HTTPShouldUsePipelining))];
+    _HTTPShouldUsePipelining = HTTPShouldUsePipelining;
+    [self didChangeValueForKey:NSStringFromSelector(@selector(HTTPShouldUsePipelining))];
+}
+
+- (void)setNetworkServiceType:(NSURLRequestNetworkServiceType)networkServiceType {
+    [self willChangeValueForKey:NSStringFromSelector(@selector(networkServiceType))];
+    _networkServiceType = networkServiceType;
+    [self didChangeValueForKey:NSStringFromSelector(@selector(networkServiceType))];
+}
+
+- (void)setTimeoutInterval:(NSTimeInterval)timeoutInterval {
+    [self willChangeValueForKey:NSStringFromSelector(@selector(timeoutInterval))];
+    _timeoutInterval = timeoutInterval;
+    [self didChangeValueForKey:NSStringFromSelector(@selector(timeoutInterval))];
+}
+
+#pragma mark -
+
+- (NSDictionary *)HTTPRequstHeaders {
+    return [NSDictionary dictionaryWithDictionary:self.mutableHTTPRequestHeaders];
+}
+
+- (void)setValue:(NSString *)value forHTTPHeaderField:(NSString *)field{
+    [self.mutableHTTPRequestHeaders setValue:value forKey:field];
+}
+
+- (NSString *)valueForHTTPHeaderField:(NSString *)field{
+    return [self.mutableHTTPRequestHeaders valueForKey:field];
+}
+
+- (void)setAuthorizationHeaderFieldWithUserName:(NSString *)username password:(NSString *)password{
+    NSData *basicAuthCredentials = [[NSString stringWithFormat:@"%@:%@", username, password] dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *base64AuthCredentials = [basicAuthCredentials base64EncodedStringWithOptions:(NSDataBase64EncodingOptions)0];
+    [self setValue:[NSString stringWithFormat:@"Basic %@", base64AuthCredentials] forHTTPHeaderField:@"Authorization"];
+}
+
+- (void)clearAuthorizationHeader{
+    [self.mutableHTTPRequestHeaders removeObjectForKey:@"Authorization"];
+}
+
 @end
 
 
